@@ -58,6 +58,14 @@
             height: 13px;
             margin: 10px;
         }
+
+        .form-control.success input{
+            border-color: green;
+        }
+
+        .form-control.error input{
+            border-color: red;
+        }
     </style>
 </head>
 <body>
@@ -67,11 +75,11 @@
             <div class="form-control">
                 <label>Username:</label>
                 <input type="text" name="" id="Username">
-                <span class="error">Error</span>
+                <span class="error"></span>
             </div>
             <div class="form-control">
-                <label>email:</label>
-                <input type="text" name="" id="email">
+                <label>Email:</label>
+                <input type="email" name="" id="email">
                 <span class="error"></span>
             </div>
             <div class="form-control">
@@ -81,7 +89,7 @@
             </div>
             <div class="form-control">
                 <label>Confirm Password:</label>
-                <input type="text" name="" id="confirm-pass">
+                <input type="password" name="" id="confirm-pass">
                 <span class="error"></span>
             </div>
             <input type="submit" id="btn" value="Submit" name="">
@@ -90,7 +98,7 @@
 </body>
 
 <script>
-    const form=document.getElementsByClassName("form")
+    const form=document.querySelector(".form")
     const username=document.getElementById("Username")
     const email=document.getElementById("email")
     const Password=document.getElementById("Password")
@@ -108,18 +116,63 @@
         const usernameValue=username.value.trim()
         const emailVal=email.value.trim()
         const passVal=Password.value.trim()
-        const cPassVal=cPass.value.trim()
+        const cPassVal=cpass.value.trim()
 
-        if(username.value===" "){
+        if(usernameValue ===''){
             setError(username, 'Username is required')
         }
         else{
             setSuccess(username)
         }
+
+        if(emailVal===''){
+            setError(email, 'Email is required')
+        }
+        // else if(!isValidEmail(emailVal)){
+        //     setError(email, 'Provide a valid email address')
+        // }
+        else{
+            setSuccess(email);
+        }
+
+        if(passVal===''){
+            setError(Password, 'Password is required');
+        }
+        else if(passVal.length<8){
+            setError(Password, 'Password must be at least 8 characters')
+        }
+
+        else{
+            setSuccess(Password);
+        }
+
+        if(cPassVal===''){
+            setError(cpass, 'Please confirm your password')
+        }
+        else if(cPassVal!==passVal){
+            setError(cpass, "Password doesn't match")
+        }
+        else{
+            setSuccess(cpass);
+        }
     }
 
     const setError=(element, message)=>{
-        
+        const inputControl=element.parentElement;
+        const errorDisplay=inputControl.querySelector(".error");
+        errorDisplay.innerText=message;
+
+        inputControl.classList.add('error');
+        inputControl.classList.remove('success');
     }
+
+    const setSuccess=element=>{
+        const inputControl=element.parentElement;
+        const errorDisplay=inputControl.querySelector('.error');
+        errorDisplay.innerText='';
+        inputControl.classList.add('success');
+        inputControl.classList.remove('error');
+    }
+
 </script>
 </html>
